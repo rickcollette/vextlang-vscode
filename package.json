@@ -2,7 +2,7 @@
     "name": "vextlang",
     "displayName": "VextLang",
     "description": "Official VS Code extension for the VextLang programming language with syntax highlighting, IntelliSense, debugging, and formatting support",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": {
         "name": "VextLang Team",
         "email": "team@vextlang.org"
@@ -36,6 +36,10 @@
         "url": "https://github.com/rickcollette/vext-lang-vscode/issues"
     },
     "updateUrl": "https://github.com/rickcollette/vext-lang-vscode/releases/latest/download/vextlang.vsix",
+    "galleryBanner": {
+        "color": "#C80000",
+        "theme": "dark"
+    },
     "activationEvents": [
         "onLanguage:vex"
     ],
