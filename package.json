@@ -2,7 +2,7 @@
     "name": "vextlang",
     "displayName": "VextLang",
     "description": "Official VS Code extension for the VextLang programming language with syntax highlighting, IntelliSense, debugging, and formatting support",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": {
         "name": "VextLang Team",
         "email": "team@vextlang.org"
