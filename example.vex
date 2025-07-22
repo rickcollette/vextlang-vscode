@@ -1,0 +1,188 @@
+// Example VextLang program demonstrating various language features
+
+// Import statements
+import std::io;
+import std::collections;
+
+// Constants
+const MAX_RETRIES = 3;
+const PI = 3.14159265359;
+
+// Struct definition
+struct Person {
+    name: string,
+    age: int,
+    email: Option<string>,
+}
+
+// Enum definition
+enum Status {
+    Active,
+    Inactive,
+    Pending,
+}
+
+// Trait definition
+trait Printable {
+    fn print(self) -> void;
+    fn to_string(self) -> string;
+}
+
+// Implementation for Person
+impl Printable for Person {
+    fn print(self) -> void {
+        println(format!("Person: {} (age: {})", self.name, self.age));
+        match self.email {
+            Some(email) => println(format!("Email: {}", email)),
+            None => println("No email provided"),
+        }
+    }
+    
+    fn to_string(self) -> string {
+        format!("Person({}, {})", self.name, self.age)
+    }
+}
+
+// Main function
+fn main() -> void {
+    println("Hello, VextLang!");
+    
+    // Variable declarations
+    let name = "Alice";
+    let age = 30;
+    let is_student = false;
+    
+    // Vector operations
+    let numbers = Vec<int>::new();
+    push(numbers, 1);
+    push(numbers, 2);
+    push(numbers, 3);
+    
+    println(format!("Vector length: {}", len(numbers)));
+    
+    // For loop
+    for number in numbers {
+        println(format!("Number: {}", number));
+    }
+    
+    // While loop
+    let counter = 0;
+    while counter < 5 {
+        println(format!("Counter: {}", counter));
+        counter += 1;
+    }
+    
+    // If-else statements
+    if age >= 18 {
+        println("Adult");
+    } else {
+        println("Minor");
+    }
+    
+    // Match expression
+    let status = match age {
+        0..=12 => Status::Active,
+        13..=17 => Status::Pending,
+        _ => Status::Inactive,
+    };
+    
+    // Function calls
+    let person = create_person(name, age);
+    person.print();
+    
+    // Error handling with Result
+    let result = divide(10, 2);
+    match result {
+        Ok(value) => println(format!("Result: {}", value)),
+        Err(error) => println(format!("Error: {}", error)),
+    }
+    
+    // Async function call
+    let future_result = async_process_data("test data");
+    // In a real implementation, you would await this
+}
+
+// Function with parameters and return type
+fn create_person(name: string, age: int) -> Person {
+    Person {
+        name: name,
+        age: age,
+        email: None,
+    }
+}
+
+// Function with error handling
+fn divide(a: int, b: int) -> Result<int, string> {
+    if b == 0 {
+        Err("Division by zero")
+    } else {
+        Ok(a / b)
+    }
+}
+
+// Async function
+async fn async_process_data(data: string) -> string {
+    // Simulate async work
+    sleep(100);
+    format!("Processed: {}", data)
+}
+
+// Generic function
+fn find_max<T>(items: Vec<T>) -> Option<T> where T: Comparable {
+    if is_empty(items) {
+        return None;
+    }
+    
+    let max_item = get(items, 0);
+    for item in items {
+        if item > max_item {
+            max_item = item;
+        }
+    }
+    
+    Some(max_item)
+}
+
+// Trait for comparison
+trait Comparable {
+    fn greater_than(self, other: Self) -> bool;
+}
+
+// Implementation for int
+impl Comparable for int {
+    fn greater_than(self, other: int) -> bool {
+        self > other
+    }
+}
+
+// Attribute example
+@inline
+fn fast_calculation(x: int, y: int) -> int {
+    x * y + x + y
+}
+
+// Module with nested functions
+mod math {
+    fn add(a: int, b: int) -> int {
+        a + b
+    }
+    
+    fn multiply(a: int, b: int) -> int {
+        a * b
+    }
+    
+    fn power(base: int, exponent: int) -> int {
+        if exponent == 0 {
+            1
+        } else if exponent == 1 {
+            base
+        } else {
+            base * power(base, exponent - 1)
+        }
+    }
+}
+
+// Using the math module
+fn calculate_area(width: int, height: int) -> int {
+    math::multiply(width, height)
+} 

@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "vextlang",
+            "request": "launch",
+            "name": "Run VextLang Program",
+            "program": "${file}",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "stopOnEntry": false,
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "vextlang",
+            "request": "launch",
+            "name": "Debug Current File",
+            "program": "${file}",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "stopOnEntry": true,
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "vextlang",
+            "request": "launch",
+            "name": "Run Example",
+            "program": "${workspaceFolder}/example.vex",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "stopOnEntry": false,
+            "console": "integratedTerminal"
+        }
+    ]
+}

@@ -1,0 +1,155 @@
+{
+    "name": "vextlang",
+    "displayName": "VextLang",
+    "description": "Official VS Code extension for the VextLang programming language with syntax highlighting, IntelliSense, debugging, and formatting support",
+    "version": "0.0.1",
+    "author": {
+        "name": "VextLang Team",
+        "email": "team@vextlang.org"
+    },
+    "icon": "VextLang-logo.png",
+    "publisher": "rickcollette",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rickcollette/vext-lang-vscode.git"
+    },
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Debuggers"
+    ],
+    "keywords": [
+        "vextlang",
+        "vex",
+        "language",
+        "official",
+        "syntax",
+        "intellisense",
+        "debugging",
+        "lsp",
+        "dap"
+    ],
+    "homepage": "https://github.com/rickcollette/vext-lang-vscode",
+    "bugs": {
+        "url": "https://github.com/rickcollette/vext-lang-vscode/issues"
+    },
+    "updateUrl": "https://github.com/rickcollette/vext-lang-vscode/releases/latest/download/vextlang.vsix",
+    "activationEvents": [
+        "onLanguage:vex"
+    ],
+    "main": "./client/out/extension",
+    "contributes": {
+        "languages": [
+            {
+                "id": "vex",
+                "aliases": [
+                    "VextLang",
+                    "vex"
+                ],
+                "extensions": [
+                    ".vex"
+                ],
+                "configuration": "./client/language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "vex",
+                "scopeName": "source.vex",
+                "path": "./client/syntaxes/vextlang.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "vex",
+                "path": "./client/snippets/vextlang.json"
+            }
+        ],
+        "configuration": {
+            "title": "VextLang",
+            "properties": {
+                "vextlang.indentSize": {
+                    "type": "number",
+                    "default": 4,
+                    "description": "Number of spaces per indent in VextLang files."
+                },
+                "vextlang.formatOnSave": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Auto-format VextLang on save."
+                },
+                "vextlang.trace.server": {
+                    "type": "string",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "default": "off",
+                    "description": "Trace level for the language server."
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "vextlang.format",
+                "title": "Format Document (VextLang)"
+            }
+        ],
+        "debuggers": [
+            {
+                "type": "vextlang",
+                "label": "VextLang",
+                "program": "./debug/out/adapter",
+                "runtime": "node",
+                "configurationAttributes": {
+                    "launch": {
+                        "properties": {
+                            "program": {
+                                "type": "string",
+                                "description": "Path to the VextLang program to debug"
+                            }
+                        },
+                        "required": [
+                            "program"
+                        ]
+                    }
+                },
+                "initialConfigurations": [
+                    {
+                        "type": "vextlang",
+                        "request": "launch",
+                        "name": "Run VextLang Program",
+                        "program": "${file}"
+                    }
+                ]
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -b",
+        "watch": "tsc -b -w",
+        "lint": "eslint client/src debug/src --ext ts",
+        "test": "node ./out/test/runTest.js",
+        "release": "./scripts/release.sh",
+        "release:patch": "./scripts/release.sh patch",
+        "release:minor": "./scripts/release.sh minor",
+        "release:major": "./scripts/release.sh major"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.74.0",
+        "@types/node": "16.x",
+        "@typescript-eslint/eslint-plugin": "^6.0.0",
+        "@typescript-eslint/parser": "^6.0.0",
+        "eslint": "^8.0.0",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^8.0.0",
+        "vscode-languageserver": "^8.0.0",
+        "vscode-debugadapter": "^1.51.0"
+    }
+}

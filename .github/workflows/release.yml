@@ -1,0 +1,130 @@
+name: Release VextLang Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Determine version
+      id: version
+      run: |
+        if [[ $GITHUB_REF == refs/tags/v* ]]; then
+          # Extract version from tag
+          VERSION=${GITHUB_REF#refs/tags/v}
+        else
+          # Bump version based on input
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          VERSION_TYPE=${{{ github.event.inputs.version_type }}}
+          
+          # Parse current version
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+          
+          case $VERSION_TYPE in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+          
+          VERSION="$MAJOR.$MINOR.$PATCH"
+        fi
+        
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Update version in package.json
+      run: |
+        npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+
+    - name: Build extension
+      run: npm run compile
+
+    - name: Package extension
+      run: npx vsce package --out vextlang.vsix
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.version.outputs.tag }}
+        name: VextLang Extension v${{ steps.version.outputs.version }}
+        body: |
+          ## VextLang VS Code Extension v${{ steps.version.outputs.version }}
+          
+          ### What's New
+          - Language support for VextLang
+          - Syntax highlighting
+          - IntelliSense and code completion
+          - Debugging support
+          - Code formatting
+          - Snippets and templates
+          
+          ### Installation
+          Download the `.vsix` file and install via VS Code Extensions panel.
+          
+          ### Features
+          - Full LSP (Language Server Protocol) support
+          - DAP (Debug Adapter Protocol) integration
+          - Syntax highlighting with TextMate grammar
+          - Code snippets for common constructs
+          - Auto-formatting with 4-space indentation
+          - Type checking and semantic analysis
+          - Standard library integration
+          
+          ### Requirements
+          - VS Code 1.74.0 or higher
+          - Node.js runtime for language server
+        files: vextlang.vsix
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Commit version bump
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add package.json package-lock.json
+        git commit -m "Bump version to ${{ steps.version.outputs.version }}"
+        git push 

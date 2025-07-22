@@ -1,0 +1,1 @@
+{"root":["./src/server.ts","./src/formatter/formatter.ts","./src/parser/lexer.ts","./src/parser/parser.ts","./src/semantic/analyzer.ts","./src/semantic/stdlibLoader.ts","./src/semantic/symbolTable.ts","./src/semantic/typeChecker.ts"],"version":"5.8.3"}

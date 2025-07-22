@@ -1,0 +1,147 @@
+{
+    "Function": {
+        "prefix": "fn",
+        "body": [
+            "fn ${1:name}(${2:args}) -> ${3:Type} {",
+            "    $0",
+            "}"
+        ],
+        "description": "Function declaration"
+    },
+    "Struct": {
+        "prefix": "struct",
+        "body": [
+            "struct ${1:Name} {",
+            "    ${2:field}: ${3:Type},",
+            "}"
+        ],
+        "description": "Struct declaration"
+    },
+    "Enum": {
+        "prefix": "enum",
+        "body": [
+            "enum ${1:Name} {",
+            "    ${2:Variant},",
+            "}"
+        ],
+        "description": "Enum declaration"
+    },
+    "If Statement": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition} {",
+            "    $0",
+            "}"
+        ],
+        "description": "If statement"
+    },
+    "If-Else Statement": {
+        "prefix": "ifelse",
+        "body": [
+            "if ${1:condition} {",
+            "    $2",
+            "} else {",
+            "    $0",
+            "}"
+        ],
+        "description": "If-else statement"
+    },
+    "For Loop": {
+        "prefix": "for",
+        "body": [
+            "for ${1:item} in ${2:collection} {",
+            "    $0",
+            "}"
+        ],
+        "description": "For loop"
+    },
+    "While Loop": {
+        "prefix": "while",
+        "body": [
+            "while ${1:condition} {",
+            "    $0",
+            "}"
+        ],
+        "description": "While loop"
+    },
+    "Match Statement": {
+        "prefix": "match",
+        "body": [
+            "match ${1:expression} {",
+            "    ${2:pattern} => {",
+            "        $0",
+            "    },",
+            "}"
+        ],
+        "description": "Match statement"
+    },
+    "Let Declaration": {
+        "prefix": "let",
+        "body": [
+            "let ${1:name} = ${2:value};"
+        ],
+        "description": "Let declaration"
+    },
+    "Const Declaration": {
+        "prefix": "const",
+        "body": [
+            "const ${1:NAME} = ${2:value};"
+        ],
+        "description": "Const declaration"
+    },
+    "Import Statement": {
+        "prefix": "import",
+        "body": [
+            "import ${1:module}::${2:item};"
+        ],
+        "description": "Import statement"
+    },
+    "Trait Declaration": {
+        "prefix": "trait",
+        "body": [
+            "trait ${1:Name} {",
+            "    fn ${2:method}(${3:args}) -> ${4:Type};",
+            "}"
+        ],
+        "description": "Trait declaration"
+    },
+    "Impl Block": {
+        "prefix": "impl",
+        "body": [
+            "impl ${1:Trait} for ${2:Type} {",
+            "    $0",
+            "}"
+        ],
+        "description": "Implementation block"
+    },
+    "Async Function": {
+        "prefix": "asyncfn",
+        "body": [
+            "async fn ${1:name}(${2:args}) -> ${3:Type} {",
+            "    $0",
+            "}"
+        ],
+        "description": "Async function declaration"
+    },
+    "Return Statement": {
+        "prefix": "return",
+        "body": [
+            "return ${1:value};"
+        ],
+        "description": "Return statement"
+    },
+    "Break Statement": {
+        "prefix": "break",
+        "body": [
+            "break;"
+        ],
+        "description": "Break statement"
+    },
+    "Continue Statement": {
+        "prefix": "continue",
+        "body": [
+            "continue;"
+        ],
+        "description": "Continue statement"
+    }
+}
